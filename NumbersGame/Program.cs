@@ -3,11 +3,25 @@ var easy = new DifficultySettings("enkel", 1, 10, 6);
 var medium = new DifficultySettings("mellan", 1, 25, 5);
 var hard = new DifficultySettings("svår", 1, 50, 3);
 
-
-
-string difficultyPromptMessage = $"Välj svårighetsgrad ({easy.DisplayName}/{medium.DisplayName}/{hard.DisplayName}): ";
 const string GuessPromptMessage = "Skriv in ett nummer: ";
 const string InvalidInputMessage = "Ogiltig inmatning, försök igen. ";
+var difficultyPromptMessage = $"Välj svårighetsgrad ({easy.DisplayName}/{medium.DisplayName}/{hard.DisplayName}): ";
+
+var tooLowMessages = new List<string>
+{
+    "Tyvärr, du gissade för lågt!",
+    "Haha! Det var för lågt!",
+    "Bra gissat, men det var för lågt!",
+    "FÖR LÅÅÅÅGT!"
+};
+
+var tooHighMessages = new List<string>
+{
+    "Tyvärr, du gissade för högt!",
+    "Haha! Det var för högt!",
+    "Bra gissat, men det var för högt!",
+    "FÖR HÖÖÖÖGT!"
+};
 
 // --- PROGRAM FLOW ---
 var difficulty = SelectDifficulty(difficultyPromptMessage, easy, medium, hard);
@@ -22,8 +36,19 @@ while (true)
 {
     var guess = GetValidGuessInput(GuessPromptMessage, difficulty);
     attempts++;
+    var result = CheckGuess(guess, answer);
 
-    if (CheckGuess(guess, answer)) break;
+    var message = result switch
+    {
+        GuessResult.Correct => "Wohoo! Du klarade det!",
+        GuessResult.TooLow  => GetRandomMessage(tooLowMessages),
+        GuessResult.TooHigh => GetRandomMessage(tooHighMessages),
+        _                   => throw new ArgumentOutOfRangeException() // Unhandled.
+    };
+
+    Console.WriteLine(message);
+
+    if (result == GuessResult.Correct) break;
     
     if (attempts >= difficulty.MaxAttempts)
     {
@@ -33,12 +58,11 @@ while (true)
 }
 
 // --- METHODS ---
-DifficultySettings SelectDifficulty(string message, DifficultySettings easy, DifficultySettings medium, DifficultySettings hard)
+DifficultySettings SelectDifficulty(string promptMessage, DifficultySettings easy, DifficultySettings medium, DifficultySettings hard)
 {
     while (true)
     {
-        Console.Write(message);
-
+        Console.Write(promptMessage);
         var input = Console.ReadLine();
 
         if (string.Equals(input, easy.DisplayName, StringComparison.OrdinalIgnoreCase)) return easy;
@@ -51,11 +75,11 @@ DifficultySettings SelectDifficulty(string message, DifficultySettings easy, Dif
     }
 }
 
-int GetValidGuessInput(string message, DifficultySettings settings)
+int GetValidGuessInput(string promptMessage, DifficultySettings settings)
 {
     while (true)
     {
-        Console.Write(message);
+        Console.Write(promptMessage);
         var input = Console.ReadLine();
 
         if (int.TryParse(input, out int result) && 
@@ -69,28 +93,22 @@ int GetValidGuessInput(string message, DifficultySettings settings)
     }
 }
 
-bool CheckGuess(int guess, int answer)
+GuessResult CheckGuess(int guess, int answer)
 {
-    if (guess == answer)
-    {
-        Console.WriteLine("Wohoo! Du klarade det!");
-        return true;
-    }
-    else if (guess < answer)
-    {
-        Console.WriteLine("Tyvärr, du gissade för lågt!");
-    }
-    else
-    {
-        Console.WriteLine("Tyvärr, du gissade för högt!");
-    }
+    if (guess == answer) return GuessResult.Correct;
 
-    Console.WriteLine();
-    return false;
+    else if (guess < answer) return GuessResult.TooLow;
+
+    return GuessResult.TooHigh;
 }
 
-// --- DOMAINS ---
+string GetRandomMessage(List<string> messages)
+{
+    return messages[Random.Shared.Next(messages.Count)];
+}
 
+
+// --- DOMAINS ---
 record DifficultySettings
 (
     string DisplayName,
@@ -98,3 +116,10 @@ record DifficultySettings
     int MaxNumber,
     int MaxAttempts
 );
+
+enum GuessResult
+{
+    Correct,
+    TooLow,
+    TooHigh
+}
