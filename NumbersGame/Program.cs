@@ -1,11 +1,11 @@
 ﻿// --- CONFIGURATION ---
-const int MaxGuesses = 5;
-const int MinAnswer = 1;
-const int MaxAnswer = 20;
+const int MaxAttempts = 5;
+const int MinRandomNumber = 1;
+const int MaxRandomNumber = 20;
 
-var answer = Random.Shared.Next(MinAnswer, MaxAnswer + 1);
+int answer = Random.Shared.Next(MinRandomNumber, MaxRandomNumber + 1);
 
-var infoMessage = $"Välkommen! Jag tänker på ett nummer. Kan du gissa vilket? Du får {MaxGuesses} försök.";
+string infoMessage = $"Välkommen! Jag tänker på ett nummer. Kan du gissa vilket? Du får {MaxAttempts} försök.";
 const string GuessPromptMessage = "Skriv in ett nummer: ";
 const string InvalidInputMessage = "Ogiltig inmatning, försök igen. ";
 
@@ -13,17 +13,17 @@ const string InvalidInputMessage = "Ogiltig inmatning, försök igen. ";
 Console.WriteLine(infoMessage);
 
 
-var totalGuesses = 0;
+var attempts = 0;
 while (true)
 {
     var guess = GetIntegerInput(GuessPromptMessage);
-    totalGuesses++;
+    attempts++;
 
     if (CheckGuess(guess, answer)) break;
     
-    if (totalGuesses >= MaxGuesses)
+    if (attempts >= MaxAttempts)
     {
-        Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på {MaxGuesses} försök!");
+        Console.WriteLine($"Tyvärr, du lyckades inte gissa talet på {MaxAttempts} försök!");
         break;
     }
 }
@@ -56,7 +56,7 @@ bool CheckGuess(int guess, int answer)
     {
         Console.WriteLine("Tyvärr, du gissade för lågt!");
     }
-    else if (guess > answer)
+    else
     {
         Console.WriteLine("Tyvärr, du gissade för högt!");
     }
