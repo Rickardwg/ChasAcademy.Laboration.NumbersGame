@@ -12,7 +12,6 @@ const string InvalidInputMessage = "Ogiltig inmatning, försök igen. ";
 // --- PROGRAM FLOW ---
 Console.WriteLine(infoMessage);
 
-
 var attempts = 0;
 while (true)
 {
