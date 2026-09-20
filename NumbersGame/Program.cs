@@ -36,7 +36,7 @@ int GetValidGuessInput(string message)
         Console.Write(message);
         var input = Console.ReadLine();
 
-        if (int.TryParse(input, out int result) && (result >= MinRandomNumber || result <= MaxRandomNumber))
+        if (int.TryParse(input, out int result) && (result >= MinRandomNumber && result <= MaxRandomNumber))
         {
             return result;
         }
