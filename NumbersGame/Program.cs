@@ -16,7 +16,7 @@ Console.WriteLine(infoMessage);
 var attempts = 0;
 while (true)
 {
-    var guess = GetIntegerInput(GuessPromptMessage);
+    var guess = GetValidGuessInput(GuessPromptMessage);
     attempts++;
 
     if (CheckGuess(guess, answer)) break;
@@ -29,14 +29,14 @@ while (true)
 }
 
 // --- METHODS ---
-int GetIntegerInput(string message)
+int GetValidGuessInput(string message)
 {
     while (true)
     {
         Console.Write(message);
         var input = Console.ReadLine();
 
-        if (int.TryParse(input, out int result))
+        if (int.TryParse(input, out int result) && (result >= MinRandomNumber || result <= MaxRandomNumber))
         {
             return result;
         }
