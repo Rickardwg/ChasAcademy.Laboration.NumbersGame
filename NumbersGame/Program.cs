@@ -130,7 +130,7 @@ GuessResult CheckGuess(int guess, int answer)
     return GuessResult.TooHigh;
 }
 
-string GetRandomMessage(List<string> messages)
+string GetRandomMessage(List<string> messages) // .Count == 0 is unhandled
 {
     return messages[Random.Shared.Next(messages.Count)];
 }
