@@ -25,7 +25,7 @@ var tooHighMessages = new List<string>
 };
 
 // --- PROGRAM FLOW ---
-while (true)
+while (true) // REPLAY LOOP
 {
     var difficulty = SelectDifficulty(difficultyPromptMessage, easy, medium, hard);
     var answer = Random.Shared.Next(difficulty.MinNumber, difficulty.MaxNumber + 1);
@@ -35,7 +35,7 @@ while (true)
     Console.WriteLine(infoMessage);
 
     var attempts = 0;
-    while (true)
+    while (true) // GAME LOOP
     {
         var guess = GetValidGuessInput(GuessPromptMessage, difficulty);
         attempts++;
@@ -46,7 +46,7 @@ while (true)
             GuessResult.Correct => "Wohoo! Du klarade det!",
             GuessResult.TooLow => GetRandomMessage(tooLowMessages),
             GuessResult.TooHigh => GetRandomMessage(tooHighMessages),
-            _ => throw new ArgumentOutOfRangeException() // Unhandled.
+            _ => throw new ArgumentOutOfRangeException() // Unhandled
         };
 
         Console.WriteLine(message);
@@ -134,7 +134,7 @@ string GetRandomMessage(List<string> messages)
 }
 
 
-// --- DOMAINS ---
+// --- DOMAIN MODELS ---
 record DifficultySettings
 (
     string DisplayName,
