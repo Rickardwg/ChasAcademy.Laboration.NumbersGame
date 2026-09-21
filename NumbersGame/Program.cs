@@ -4,8 +4,10 @@ var medium = new DifficultySettings("mellan", 1, 25, 5);
 var hard = new DifficultySettings("svår", 1, 50, 3);
 
 const string GuessPromptMessage = "Skriv in ett nummer: ";
-const string ReplayPromptMessage = "Vill du spela igen? (j/n): ";
 const string InvalidInputMessage = "Ogiltig inmatning, försök igen. ";
+const string YesResponse = "j";
+const string NoResponse = "n";
+var ReplayPromptMessage = $"Vill du spela igen? ({YesResponse}/{NoResponse}): ";
 var difficultyPromptMessage = $"Välj svårighetsgrad ({easy.DisplayName}/{medium.DisplayName}/{hard.DisplayName}): ";
 
 var tooLowMessages = new List<string>
@@ -112,8 +114,8 @@ bool GetReplayResponse(string promptMessage)
         Console.Write(promptMessage);
         var input = Console.ReadLine();
 
-        if (string.Equals(input, "j", StringComparison.OrdinalIgnoreCase)) return true;
-        if (string.Equals(input, "n", StringComparison.OrdinalIgnoreCase)) return false;
+        if (string.Equals(input, YesResponse, StringComparison.OrdinalIgnoreCase)) return true;
+        if (string.Equals(input, NoResponse, StringComparison.OrdinalIgnoreCase)) return false;
 
         Console.Write(InvalidInputMessage);
     }
