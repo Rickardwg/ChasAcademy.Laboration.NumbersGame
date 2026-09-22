@@ -64,7 +64,7 @@ while (true) // REPLAY LOOP
         }
     }
 
-    if (!GetReplayResponse(ReplayPromptMessage)) break;
+    if (!GetReplayResponse(replayPromptMessage)) break;
 
     Console.WriteLine();
 }
