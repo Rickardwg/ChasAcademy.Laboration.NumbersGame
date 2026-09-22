@@ -9,7 +9,7 @@ const string YesResponse = "j";
 const string NoResponse = "n";
 
 var difficultyPromptMessage = $"Välj svårighetsgrad ({easy.DisplayName}/{medium.DisplayName}/{hard.DisplayName}): ";
-var ReplayPromptMessage = $"Vill du spela igen? ({YesResponse}/{NoResponse}): ";
+var replayPromptMessage = $"Vill du spela igen? ({YesResponse}/{NoResponse}): ";
 
 var tooLowMessages = new List<string>
 {
