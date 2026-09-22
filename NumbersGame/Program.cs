@@ -30,10 +30,11 @@ var tooHighMessages = new List<string>
 // --- PROGRAM FLOW ---
 while (true) // REPLAY LOOP
 {
+    Console.Clear();
     var difficulty = SelectDifficulty(difficultyPromptMessage, easy, medium, hard);
     var answer = Random.Shared.Next(difficulty.MinNumber, difficulty.MaxNumber + 1);
+    Console.Clear();
 
-    Console.WriteLine();
     var infoMessage = $"Välkommen! Jag tänker på ett nummer ({difficulty.MinNumber}-{difficulty.MaxNumber}). Kan du gissa vilket? Du får {difficulty.MaxAttempts} försök.";
     Console.WriteLine(infoMessage);
 
